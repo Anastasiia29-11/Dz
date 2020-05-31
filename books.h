@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// структура для хранения полей
 typedef struct book_t {
     char isbn[16]; 
     char authors[40];
