@@ -2,8 +2,6 @@
 #include "books.h"
 
 const char* books_path = "books.csv"; 
-
-// считывание полей структуры
 book_t read_book() {
     book_t book; 
     
@@ -25,7 +23,6 @@ book_t read_book() {
     return book; 
 }
 
-
 void print_book_header() {
     printf("+------------------+------------------------------------------+---------------------------+-----------+-----------+\n");
     printf("|       isbn       |                 authors                  |           title           |   total   | available |\n");
@@ -45,7 +42,6 @@ void print_book_footer() {
     printf("+------------------+------------------------------------------+---------------------------+-----------+-----------+\n");
 }
 
-
 void print_books(book_t* books, int n) {
     if (n == 0) { 
         printf("No book was added yet\n"); 
@@ -55,7 +51,7 @@ void print_books(book_t* books, int n) {
     // алгоритм Шелла
     for (int k = n / 2; k > 0; k /= 2) {
         for (int i = k; i < n; i++) {
-            book_t tmp = books[i]; // запоминаем текущий элемент
+            book_t tmp = books[i]; 
             int j = i;
 
             // поиск места для вставки
@@ -64,7 +60,7 @@ void print_books(book_t* books, int n) {
                 j -= k;
             }
 
-            books[j] = tmp; // вставка элемента в найденное место
+            books[j] = tmp; 
         }
     }
 
@@ -72,8 +68,7 @@ void print_books(book_t* books, int n) {
 
     for (int i = 0; i < n; i++)
         print_book(books[i]);
-
-    print_book_footer(); 
+        print_book_footer(); 
 }
 
 // получение индекса книги по номеру
@@ -81,8 +76,7 @@ int get_index_by_isbn(book_t* books, int n, char* isbn) {
     for (int i = 0; i < n; i++)
         if (!strcmp(isbn, books[i].isbn))
             return i;
-
-    return -1; // не найдено
+    return -1; 
 }
 
 // вывод книги по номеру
@@ -90,9 +84,7 @@ void print_book_by_isbn(book_t* books, int n) {
     char isbn[16];
     printf("Enter isbn: ");
     scanf("%s", isbn); 
-
     int index = get_index_by_isbn(books, n, isbn); 
-
     if (index == -1) { 
         printf("No book with ISBN '%s'\n", isbn);
         return;
@@ -135,7 +127,6 @@ void remove_book_by_isbn(book_t* books, int* n) {
         printf("No book with isbn '%s'\n", isbn); 
         return; 
     }
-
     (*n)--; // уменьшение размера
 
     // сдвиг книг влево
@@ -176,7 +167,6 @@ book_t* load_books(int* n) {
         *n = *n + 1; // увеличиваем размер
         books = (book_t*)realloc(books, (*n + 1) * sizeof(book_t)); 
     }
-
     fclose(f); 
     return books; 
 }
