@@ -17,8 +17,7 @@ void book_menu() {
         printf("5. Exit\n");
         printf(">");
         scanf("%d%*c", &item); 
-
-        // некорректный ввод пункта меню
+        
         while (item < 1 || item > 5) {
             printf("Incorrect item, try again: ");
             scanf("%d%*c", &item); 
