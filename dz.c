@@ -5,7 +5,6 @@
 #pragma warning(disable : 4996)
 #define _CRT_SECURE_NO_WARNINGS
 
-// структуры для хранения полей
 typedef struct book_t {
     char isbn[16]; 
     char authors[40];
@@ -35,7 +34,6 @@ typedef struct user_t {
 book_t read_book() {
 book_t book; // создаём структуру
 
-// считываем поля
 printf("Enter isbn: ");
 scanf("%s", book.isbn); 
 
@@ -51,10 +49,9 @@ scanf("%d", &book.total);
 printf("Enter available: ");
 scanf("%d", &book.available); 
 
-return book; // возвращаем считанную структуру
+return book;
 }
 
-// вывод шапки таблицы
 void print_book_header() {
     printf("+------------------+------------------------------------------+---------------------------+-----------+-----------+\n");
     printf("|       isbn       |                 authors                  |           title           |   total   | available |\n");
@@ -69,7 +66,6 @@ void print_book(book_t book) {
     printf("| %9d ", book.available);
     printf("|\n");
 }
-// вывод низа таблицы
 void print_book_footer() {
     printf("+------------------+------------------------------------------+---------------------------+-----------+-----------+\n");
 }
@@ -80,8 +76,7 @@ void print_books(book_t* books, int n) {
         printf("No book was added yet\n");
         return; // выходим
     }
-
-    // сортируем алгоритмом Шелла
+    
     for (int k = n / 2; k > 0; k /= 2) {
         for (int i = k; i < n; i++) {
             book_t tmp = books[i]; // запоминаем текущий элемент
@@ -119,12 +114,12 @@ int get_index_by_isbn(book_t* books, int n, char* isbn) {
 void print_book_by_isbn(book_t* books, int n) {
     char isbn[16];
     printf("Enter isbn: ");
-    scanf("%s", isbn); // считываем поле для поиска
+    scanf("%s", isbn); 
 
     int index = get_index_by_isbn(books, n, isbn); // ищем книгу по номеру
 
     if (index == -1) { // если такой книги нет
-        printf("No book with ISBN '%s'\n", isbn); // сообщаем об этом
+        printf("No book with ISBN '%s'\n", isbn);
         return;
     }
 
@@ -138,8 +133,8 @@ book_t* add_book(book_t* books, int* n) {
     book_t book = read_book(); // считываем запись
 
     if (get_index_by_isbn(books, *n, book.isbn) != -1) { // если книга с таким номером уже есть
-        printf("Book with this ISBN already include\n"); // сообщаем об этом
-        return books; // возвращаем исходный массив
+        printf("Book with this ISBN already include\n");
+        return books; 
     }
 
     books = (book_t*)realloc(books, (*n + 1) * sizeof(book_t)); // перераспределяем память
@@ -153,19 +148,19 @@ book_t* add_book(book_t* books, int* n) {
 void remove_book_by_isbn(book_t* books, int* n) {
     if (n == 0) { // если ещё нет записей
         printf("No book was added yet\n");
-        return; // выходим
+        return;
     }
 
     char isbn[16];
     printf("Enter isbn: ");
-    scanf("%s", isbn); // считываем поле для поиска
+    scanf("%s", isbn);
 
     int i = get_index_by_isbn(books, *n, isbn); // ищем книгу по номеру
 
     // если не нашли
     if (i == -1) {
-        printf("No book with isbn '%s'\n", isbn); // сообщаем об этом
-        return; // и выходим
+        printf("No book with isbn '%s'\n", isbn); 
+        return;
     }
 
     (*n)--; // уменьшаем размер
@@ -177,7 +172,7 @@ void remove_book_by_isbn(book_t* books, int* n) {
 
 // сохранение записей в файл
 void save_books(char *books_path, book_t* books, int n) {
-    FILE *fbook = fopen(books_path, "w"); // открываем файл на запись
+    FILE *fbook = fopen(books_path, "w"); 
 
     for (int i = 0; i < n; i++) {
         fprintf(fbook, "%s;%s;%s;%d;%d", books[i].isbn, books[i].authors, books[i].title, books[i].total, books[i].available);
@@ -186,12 +181,12 @@ void save_books(char *books_path, book_t* books, int n) {
             fprintf(fbook, "\n");
     }
 
-    fclose(fbook); // закрываем файл
+    fclose(fbook); 
 }
 
 // загрузка записей из файла
 book_t* load_books(char *books_path, int* n) {
-    FILE* fbook = fopen(books_path, "r"); // открываем файл на чтение
+    FILE* fbook = fopen(books_path, "r"); 
 
     if (!fbook) { // если не удалось открыть файл
         *n = 0; // обнуляем количество
@@ -222,7 +217,6 @@ book_t* load_books(char *books_path, int* n) {
 student_t read_student() {
     student_t student; // создаём структуру
 
-    // считываем поля
     printf("Enter id: ");
     scanf("%s", student.id); 
 
@@ -277,7 +271,7 @@ int get_index_by_id(student_t* students, int n, char* id) {
 
 // добавление новой записи
 student_t* add_student(student_t* students, int* n) {
-    student_t student = read_student(); // считываем запись
+    student_t student = read_student(); 
 
     if (get_index_by_id(students, *n, student.id) != -1) { // если студент с таким номером уже есть
         printf("student with this id already include\n"); 
@@ -295,24 +289,24 @@ student_t* add_student(student_t* students, int* n) {
 void remove_student_by_id(student_t* students, int* n) {
     if (n == 0) { // если ещё нет записей
         printf("No book was added yet\n");
-        return; // выходим
+        return; 
     }
 
     char id[16];
     printf("Enter id: ");
-    scanf("%s", id); // считываем поле для поиска
+    scanf("%s", id); 
 
-    int i = get_index_by_id(students, *n, id); // ищем книгу по номеру
+    int i = get_index_by_id(students, *n, id); // ищем студента по номеру
 
     // если не нашли
     if (i == -1) {
-        printf("No book with isbn '%s'\n", id);
-        return; // выходим
+        printf("No students with id '%s'\n", id);
+        return;
     }
 
     (*n)--; // уменьшаем размер
 
-    // сдвигаем книги влево
+    // сдвигаем студентов влево
     for (; i < *n; i++)
         students[i] = students[i + 1];
 }
@@ -321,7 +315,7 @@ void remove_student_by_id(student_t* students, int* n) {
 void edit_students(student_t* students, int n) {
     if (n == 0) { // если ещё нет записей
         printf("No record was added yet\n");
-        return; // выходим
+        return; 
     }
 
     char id[16];
@@ -343,7 +337,7 @@ void edit_students(student_t* students, int n) {
 void find_students_by_field(student_t* students, int n) {
     if (n == 0) { // если ещё нет записей
         printf("No record was added yet\n");
-        return; // выходим
+        return; 
     }
 
     char id[16];
@@ -364,7 +358,7 @@ void find_students_by_field(student_t* students, int n) {
 
 // сохранение записей в текстовый файл
 void save_students(char *students_path, student_t* students, int n) {
-    FILE* fstudent = fopen(students_path, "w"); // открываем файл на запись
+    FILE* fstudent = fopen(students_path, "w"); 
 
     for (int i = 0; i < n; i++) {
         fprintf(fstudent, "%s;", students[i].id);
@@ -383,7 +377,7 @@ void save_students(char *students_path, student_t* students, int n) {
 
 // загрузка записей из текстового файла
 student_t* load_students(char *students_path, int* n) {
-    FILE* fstudent = fopen(students_path, "r"); // открываем файл на чтение
+    FILE* fstudent = fopen(students_path, "r"); 
 
     if (!fstudent) { // если не удалось открыть файл
         *n = 0; // обнуляем количество
@@ -440,22 +434,19 @@ user_t* load_users(char* user_path, int* n) { // загрузка пользов
 
 int main() {
     int m = 0, n = 0, k = 0; // количество элементов в массиве
-    char log[15], pass[15]; // логин и пароль
+    char log[15], pass[15]; 
 
     student_t* students = load_students("students.csv", &m); // массив студентов
     book_t* books = load_books("books.csv", &n); // массив книг
     user_t* users = load_users("users.csv", &k); // массив пользователей
-    int lvl = 0; //уровень доступа к БД (1 - students, 2 - books)
+    int lvl = 0; //уровень доступа к БД 
     int admlvl = 0; //уровень доступа к двум БД
     int punktst, punktb, punktadm; // выбираемый пункт меню
 
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-
     printf("Enter login: ");
-    scanf("%[^\n]%*c", log); // считываем логин
+    scanf("%[^\n]%*c", log); 
     printf("Enter password: ");
-    scanf("%[^\n]%*c", pass); // считываем пароль
+    scanf("%[^\n]%*c", pass); 
     printf("\n");
 
     for (int i = 0; i < k; i++) {
@@ -489,9 +480,9 @@ int main() {
             printf("1. Students\n");
             printf("2. Books\n");
             printf("Enter > ");
-            scanf("%d%*c", &punktadm); // считываем пункт меню
+            scanf("%d%*c", &punktadm); 
 
-            while ((punktadm < 1) || (punktadm > 2)) { // проверка на верность введенного пункта меню
+            while ((punktadm < 1) || (punktadm > 2)) { 
                 printf("Incorrect item, try again: ");
                 scanf("%d%*c", &punktadm);
             }
@@ -519,12 +510,12 @@ int main() {
                     printf("0. Exit to the main menu\n");
                 }
                 printf(">");
-                scanf("%d%*c", &punktst); // считываем пункт меню
+                scanf("%d%*c", &punktst); 
 
                 // обрабатываем некорректный ввод пункта меню
                 while (((punktst < 1 || punktst > 5)) && (punktst != 0)) {
                     printf("Incorrect item, try again: ");
-                    scanf("%d%*c", &punktst); // считываем пункт меню ещё раз
+                    scanf("%d%*c", &punktst); 
                 }
 
                 switch (punktst) {
@@ -570,12 +561,12 @@ int main() {
                     printf("0. Exit to the main menu\n");
                 }
                 printf(">");
-                scanf("%d%*c", &punktb); // считываем пункт меню
+                scanf("%d%*c", &punktb); 
 
                 // обрабатываем некорректный ввод пункта меню
                 while (((punktb < 1 || punktb > 5)) && (punktb != 0)) {
                     printf("Incorrect item, try again: ");
-                    scanf("%d%*c", &punktb); // считываем пункт меню ещё раз
+                    scanf("%d%*c", &punktb); 
                 }
 
                 switch (punktb) {
@@ -588,7 +579,7 @@ int main() {
                     break;
 
                 case 3:
-                    print_book_by_isbn(books, n);  // редактируем запись
+                    print_book_by_isbn(books, n); 
                     break;
 
                 case 4:
